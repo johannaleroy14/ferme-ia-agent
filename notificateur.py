@@ -18,3 +18,10 @@ def envoyer_message(message):
         response.raise_for_status()
     except Exception as e:
         print("Erreur lors de l'envoi du message :", e)
+def send_telegram_message(message):
+    import requests
+    TOKEN = "7316577234:AAG1lDOcnJoXuvOaCJvsgWn_-VqzIXtzXLo"
+    CHAT_ID = "6892598581"
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+    payload = {"chat_id": CHAT_ID, "text": message}
+    requests.post(url, data=payload)
