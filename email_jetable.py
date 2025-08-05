@@ -1,13 +1,13 @@
 import requests
 import random
 import string
-from notificateur import send_telegram_message  # Assure-toi que cette fonction existe
+import time
+from notificateur import send_telegram_message
 
 def generer_email_jetable():
     local_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=10))
     domain = "1secmail.com"
-    email = f"{local_part}@{domain}"
-    return email
+    return f"{local_part}@{domain}"
 
 def verifier_boite(email):
     local_part, domain = email.split('@')
@@ -15,8 +15,7 @@ def verifier_boite(email):
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
-    else:
-        return []
+    return []
 
 def lire_mail(email, message_id):
     local_part, domain = email.split('@')
@@ -24,8 +23,7 @@ def lire_mail(email, message_id):
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
-    else:
-        return None
+    return None
 
 def check_new_emails(email, already_seen_ids):
     mails = verifier_boite(email)
@@ -34,18 +32,22 @@ def check_new_emails(email, already_seen_ids):
         contenu = lire_mail(email, mail['id'])
         sujet = contenu.get('subject', 'Sans sujet')
         corps = contenu.get('textBody', '')
-        message = f"📧 Nouveau mail reçu sur {email}\nSujet: {sujet}\nContenu:\n{corps}"
+        message = f"📧 Nouveau mail reçu sur {email}\nSujet: {sujet}\n\n{corps}"
         send_telegram_message(message)
         already_seen_ids.add(mail['id'])
     return already_seen_ids
 
-# Exemple d'utilisation
-email = generer_email_jetable()
-print("Email jetable créé:", email)
+def main():
+    email = generer_email_jetable()
+    send_telegram_message(f"✉️ Email jetable généré : {email}")
+    print(f"Email jetable créé : {email}")
 
-ids_vus = set()
-# Boucle de vérification simple
-import time
-while True:
-    ids_vus = check_new_emails(email, ids_vus)
-    time.sleep(300)  # toutes les 5 minutes
+    ids_vus = set()
+
+    while True:
+        ids_vus = check_new_emails(email, ids_vus)
+        time.sleep(300)  # vérifie toutes les 5 minutes
+
+if __name__ == "__main__":
+    main()
+
