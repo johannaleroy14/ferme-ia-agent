@@ -19,3 +19,4 @@ def send_telegram_message(message):
 # ENVOI IMMÉDIAT DU MESSAGE AU DÉMARRAGE
 send_telegram_message("✅ Agent autonome actif !")
 
+from email_jetable import generer_email_jetable, verifier_boite
