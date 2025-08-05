@@ -1,7 +1,9 @@
 services:
   - type: web
-    name: agent-ferme-ia
+    name: ferme-ia-agent
     env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python test_notification.py"
     plan: free
-    buildCommand: ""
-    startCommand: "gunicorn agent:app"
+    region: oregon
+    branch: main
