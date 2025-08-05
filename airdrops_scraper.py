@@ -26,3 +26,12 @@ def scrap_airdrops():
 
     except Exception as e:
         send_telegram_message(f"Erreur lors du scraping : {e}")
+from airdrops_scraper import scrap_airdrops
+from notificateur import send_telegram_message
+import time
+
+if __name__ == "__main__":
+    send_telegram_message("🚀 Agent autonome démarré et prêt à scraper !")
+    while True:
+        scrap_airdrops()
+        time.sleep(300)  # Pause de 5 minutes entre chaque scrape
