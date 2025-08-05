@@ -2,8 +2,10 @@ services:
   - type: web
     name: ferme-ia-agent
     env: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python test_notification.py"
-    plan: free
-    region: oregon
-    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn agent:app
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        value: 7316577234:AAG1lDOcnJoXuvOaCJvsgWn_-VqzIXtzXLo
+      - key: TELEGRAM_CHAT_ID
+        value: 6800524671
