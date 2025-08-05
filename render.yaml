@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: agent-ferme-ia
+    env: python
+    plan: free
+    buildCommand: ""
+    startCommand: "gunicorn agent:app"
