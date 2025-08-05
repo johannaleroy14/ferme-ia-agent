@@ -20,3 +20,7 @@ def send_telegram_message(message):
 send_telegram_message("✅ Agent autonome actif !")
 
 from email_jetable import generer_email_jetable, verifier_boite
+import email_jetable
+
+if __name__ == "__main__":
+    email_jetable.main()
